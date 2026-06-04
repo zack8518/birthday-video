@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Brian & Jim!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #FFFFFF;
+      color: #1A1A1A;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 24px 16px 48px;
+    }
+
+    .card {
+      background: #FFFFFF;
+      border-radius: 20px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+      max-width: 560px;
+      width: 100%;
+      padding: 40px 32px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .hero-emoji {
+      font-size: 52px;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #1A1A1A;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #555555;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 28px;
+    }
+
+    label {
+      display: block;
+      font-size: 18px;
+      font-weight: 600;
+      color: #1A1A1A;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 16px 18px;
+      font-size: 18px;
+      font-family: 'Inter', sans-serif;
+      border: 2px solid #E5E5E5;
+      border-radius: 12px;
+      color: #1A1A1A;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: #F97316;
+    }
+
+    input[type="text"]::placeholder {
+      color: #AAAAAA;
+    }
+
+    .recipient-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .recipient-btn {
+      width: 100%;
+      min-height: 64px;
+      padding: 16px 20px;
+      font-size: 20px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      background: #F5F5F5;
+      color: #1A1A1A;
+      border: 3px solid transparent;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      text-align: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .recipient-btn:hover {
+      background: #FFF0E6;
+      border-color: #F97316;
+    }
+
+    .recipient-btn.selected {
+      background: #F97316;
+      color: #FFFFFF;
+      border-color: #F97316;
+    }
+
+    .upload-area {
+      border: 3px dashed #E5E5E5;
+      border-radius: 14px;
+      padding: 32px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      background: #FAFAFA;
+    }
+
+    .upload-area:hover {
+      border-color: #F97316;
+      background: #FFF8F3;
+    }
+
+    .upload-area.has-file {
+      border-color: #F97316;
+      background: #FFF8F3;
+    }
+
+    .upload-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .upload-label {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1A1A1A;
+      margin-bottom: 6px;
+    }
+
+    .upload-hint {
+      font-size: 16px;
+      color: #888888;
+    }
+
+    .file-name {
+      margin-top: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #F97316;
+      word-break: break-all;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .progress-wrap {
+      display: none;
+      margin-top: 16px;
+    }
+
+    .progress-label {
+      font-size: 16px;
+      color: #555555;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar-bg {
+      background: #E5E5E5;
+      border-radius: 99px;
+      height: 12px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: #F97316;
+      border-radius: 99px;
+      transition: width 0.3s ease;
+      width: 0%;
+    }
+
+    .progress-percent {
+      font-size: 15px;
+      color: #F97316;
+      font-weight: 600;
+      text-align: right;
+      margin-top: 4px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      min-height: 64px;
+      padding: 18px 24px;
+      font-size: 22px;
+      font-weight: 800;
+      font-family: 'Inter', sans-serif;
+      background: #F97316;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.18s ease, transform 0.1s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      background: #EA6A0A;
+    }
+
+    .submit-btn:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+
+    .submit-btn:disabled {
+      background: #CCCCCC;
+      cursor: not-allowed;
+    }
+
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 32px 24px;
+    }
+
+    .success-emoji {
+      font-size: 56px;
+      margin-bottom: 16px;
+    }
+
+    .success-message h2 {
+      font-size: 26px;
+      font-weight: 800;
+      color: #1A1A1A;
+      margin-bottom: 10px;
+    }
+
+    .success-message p {
+      font-size: 18px;
+      color: #555555;
+      line-height: 1.5;
+    }
+
+    .error-msg {
+      display: none;
+      background: #FFF0F0;
+      border: 2px solid #E53E3E;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 17px;
+      color: #C53030;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 28px 20px;
+        border-radius: 16px;
+        box-shadow: none;
+      }
+      .hero h1 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="hero">
+      <div class="hero-emoji">🎂</div>
+      <h1>Happy Birthday Brian &amp; Jim!</h1>
+      <p>Record a short video message and upload it below. It only takes a minute!</p>
+    </div>
+
+    <div id="form-section">
+      <div class="error-msg" id="error-msg"></div>
+
+      <form id="upload-form" novalidate>
+
+        <div class="form-group">
+          <label for="full-name">Your Full Name</label>
+          <input
+            type="text"
+            id="full-name"
+            name="full_name"
+            placeholder="e.g. John Smith"
+            autocomplete="name"
+            inputmode="text"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Who is this video for?</label>
+          <div class="recipient-grid">
+            <button type="button" class="recipient-btn" data-value="Brian">For Brian 🎂</button>
+            <button type="button" class="recipient-btn" data-value="Jim">For Jim 🎂</button>
+            <button type="button" class="recipient-btn" data-value="BrianAndJim">For Both Brian &amp; Jim 🎂</button>
+          </div>
+          <input type="hidden" id="recipient" name="recipient" value="" />
+        </div>
+
+        <div class="form-group">
+          <label>Your Video Message</label>
+          <div class="upload-area" id="upload-area" role="button" tabindex="0" aria-label="Tap to select a video">
+            <div class="upload-icon">🎥</div>
+            <div class="upload-label">Tap to Choose a Video</div>
+            <div class="upload-hint">Works with your phone's camera roll</div>
+            <div class="file-name" id="file-name"></div>
+          </div>
+          <input type="file" id="video-input" name="video" accept="video/*" />
+
+          <div class="progress-wrap" id="progress-wrap">
+            <div class="progress-label">Uploading your video...</div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" id="progress-bar"></div>
+            </div>
+            <div class="progress-percent" id="progress-percent">0%</div>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submit-btn">
+          Send My Birthday Message 🎉
+        </button>
+
+      </form>
+    </div>
+
+    <div class="success-message" id="success-message">
+      <div class="success-emoji">🎉</div>
+      <h2>Thank you!</h2>
+      <p>Your birthday message has been received. Brian and Jim are going to love it!</p>
+    </div>
+  </div>
+
+  <script>
+    // ---- CONFIGURATION ----
+    // Replace this with your deployed Cloud Function URL after setup
+    const CLOUD_FUNCTION_URL = 'https://upload-video-667361025072.us-central1.run.app';
+    // -----------------------
+
+    const form = document.getElementById('upload-form');
+    const nameInput = document.getElementById('full-name');
+    const recipientInput = document.getElementById('recipient');
+    const videoInput = document.getElementById('video-input');
+    const uploadArea = document.getElementById('upload-area');
+    const fileNameEl = document.getElementById('file-name');
+    const submitBtn = document.getElementById('submit-btn');
+    const progressWrap = document.getElementById('progress-wrap');
+    const progressBar = document.getElementById('progress-bar');
+    const progressPercent = document.getElementById('progress-percent');
+    const successMessage = document.getElementById('success-message');
+    const formSection = document.getElementById('form-section');
+    const errorMsg = document.getElementById('error-msg');
+
+    // Recipient button selection
+    document.querySelectorAll('.recipient-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.recipient-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        recipientInput.value = btn.dataset.value;
+      });
+    });
+
+    // Upload area tap / click
+    uploadArea.addEventListener('click', () => videoInput.click());
+    uploadArea.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') videoInput.click();
+    });
+
+    videoInput.addEventListener('change', () => {
+      const file = videoInput.files[0];
+      if (file) {
+        uploadArea.classList.add('has-file');
+        fileNameEl.textContent = file.name;
+      }
+    });
+
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      errorMsg.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function clearError() {
+      errorMsg.style.display = 'none';
+      errorMsg.textContent = '';
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearError();
+
+      const fullName = nameInput.value.trim();
+      const recipient = recipientInput.value;
+      const file = videoInput.files[0];
+
+      if (!fullName) {
+        showError('Please enter your full name.');
+        nameInput.focus();
+        return;
+      }
+      if (!recipient) {
+        showError('Please choose who this video is for.');
+        return;
+      }
+      if (!file) {
+        showError('Please select a video to upload.');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('full_name', fullName);
+      formData.append('recipient', recipient);
+      formData.append('video', file);
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Uploading...';
+      progressWrap.style.display = 'block';
+
+      try {
+        await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+
+          xhr.upload.addEventListener('progress', (event) => {
+            if (event.lengthComputable) {
+              const pct = Math.round((event.loaded / event.total) * 100);
+              progressBar.style.width = pct + '%';
+              progressPercent.textContent = pct + '%';
+            }
+          });
+
+          xhr.addEventListener('load', () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              resolve(xhr.responseText);
+            } else {
+              let errText = 'Upload failed. Please try again.';
+              try {
+                const data = JSON.parse(xhr.responseText);
+                if (data.error) errText = data.error;
+              } catch (_) {}
+              reject(new Error(errText));
+            }
+          });
+
+          xhr.addEventListener('error', () => reject(new Error('Network error. Please check your connection and try again.')));
+          xhr.addEventListener('abort', () => reject(new Error('Upload was cancelled.')));
+
+          xhr.open('POST', CLOUD_FUNCTION_URL);
+          xhr.send(formData);
+        });
+
+        // Success
+        formSection.style.display = 'none';
+        successMessage.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      } catch (err) {
+        showError(err.message || 'Something went wrong. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send My Birthday Message 🎉';
+        progressWrap.style.display = 'none';
+        progressBar.style.width = '0%';
+        progressPercent.textContent = '0%';
+      }
+    });
+  </script>
+</body>
+</html>
