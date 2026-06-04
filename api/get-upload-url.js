@@ -58,6 +58,9 @@ module.exports = async (req, res) => {
     const accessToken = await auth.getAccessToken();
 
     // Create a resumable upload session directly with the Drive API
+    // Pass the browser's Origin so Drive sets up CORS for the upload URL
+    const origin = req.headers.origin || 'https://birthday-video-dun.vercel.app';
+
     const initResponse = await fetch(
       'https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable',
       {
@@ -66,6 +69,7 @@ module.exports = async (req, res) => {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
           'X-Upload-Content-Type': mime_type,
+          'Origin': origin,
         },
         body: JSON.stringify({
           name: filename,
