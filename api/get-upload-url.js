@@ -62,7 +62,7 @@ module.exports = async (req, res) => {
     const origin = req.headers.origin || 'https://birthday-video-dun.vercel.app';
 
     const initResponse = await fetch(
-      'https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable',
+      'https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable&supportsAllDrives=true',
       {
         method: 'POST',
         headers: {
