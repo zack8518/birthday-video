@@ -471,7 +471,7 @@
             if (xhr.status >= 200 && xhr.status < 300) {
               resolve();
             } else {
-              reject(new Error('Upload failed. Please try again.'));
+              reject(new Error(`Upload failed (${xhr.status}): ${xhr.responseText || 'no details'}`));
             }
           });
 
