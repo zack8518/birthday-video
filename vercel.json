@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/get-upload-url.js": {
+      "maxDuration": 10
+    }
+  }
+}

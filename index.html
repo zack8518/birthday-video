@@ -356,8 +356,8 @@
 
   <script>
     // ---- CONFIGURATION ----
-    // Replace this with your deployed Cloud Function URL after setup
-    const CLOUD_FUNCTION_URL = 'https://upload-video-667361025072.us-central1.run.app';
+    // Vercel API endpoint (auto-resolved in production, works locally too)
+    const API_URL = '/api/get-upload-url';
     // -----------------------
 
     const form = document.getElementById('upload-form');
@@ -430,16 +430,32 @@
         return;
       }
 
-      const formData = new FormData();
-      formData.append('full_name', fullName);
-      formData.append('recipient', recipient);
-      formData.append('video', file);
-
       submitBtn.disabled = true;
       submitBtn.textContent = 'Uploading...';
       progressWrap.style.display = 'block';
 
       try {
+        // Step 1: Get a resumable upload URL from Vercel
+        const ext = file.name.includes('.') ? file.name.slice(file.name.lastIndexOf('.')) : '.mp4';
+        const initRes = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            full_name: fullName,
+            recipient: recipient,
+            mime_type: file.type || 'video/mp4',
+            file_extension: ext,
+          }),
+        });
+
+        if (!initRes.ok) {
+          const data = await initRes.json().catch(() => ({}));
+          throw new Error(data.error || 'Could not start upload. Please try again.');
+        }
+
+        const { upload_url } = await initRes.json();
+
+        // Step 2: Upload the video file directly to Google Drive
         await new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest();
 
@@ -453,22 +469,18 @@
 
           xhr.addEventListener('load', () => {
             if (xhr.status >= 200 && xhr.status < 300) {
-              resolve(xhr.responseText);
+              resolve();
             } else {
-              let errText = 'Upload failed. Please try again.';
-              try {
-                const data = JSON.parse(xhr.responseText);
-                if (data.error) errText = data.error;
-              } catch (_) {}
-              reject(new Error(errText));
+              reject(new Error('Upload failed. Please try again.'));
             }
           });
 
           xhr.addEventListener('error', () => reject(new Error('Network error. Please check your connection and try again.')));
           xhr.addEventListener('abort', () => reject(new Error('Upload was cancelled.')));
 
-          xhr.open('POST', CLOUD_FUNCTION_URL);
-          xhr.send(formData);
+          xhr.open('PUT', upload_url);
+          xhr.setRequestHeader('Content-Type', file.type || 'video/mp4');
+          xhr.send(file);
         });
 
         // Success
